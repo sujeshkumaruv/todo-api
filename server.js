@@ -65,6 +65,17 @@ app.post('/todos',function(req,res){
 
 });
 
+app.delete('/todos/:id',function(req,res){
+	var todoId = parseInt(req.params.id,10);
+	var matchingTodo = _.findWhere(todos,{id : todoId});
+	if(!matchingTodo) {
+		res.status(404).json({"error": "no todo found with that id"});
+	} else {
+		todos = _.without(todos,matchingTodo);
+		res.json(matchingTodo);
+	}
+});
+
 app.listen(PORT, function(){
 	console.log('Express listening on port '+ PORT+'!');
 });
